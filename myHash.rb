@@ -1,3 +1,5 @@
+require 'benchmark/ips'
+
 class MyHash
 
 def initialize(default = nil)
@@ -15,8 +17,9 @@ public
     end
     
     def [](key)
-        if @myHash.rassoc(key) != nil
-            return @myHash.rassoc(key)[0]
+        res = @myHash.rassoc(key)
+        if res != nil
+            return res[0]
         elsif @default != nil
             return @default
         else
@@ -25,8 +28,9 @@ public
     end
     
     def []=(key, value = nil)
-        if @myHash.rassoc(key) != nil
-            @myHash.rassoc(key)[0] = value
+        res = @myHash.rassoc(key)
+        if res != nil
+            res[0] = value
         else
             raise ArgumentError, 'There\'s no such key in the hash'
         end  
@@ -56,6 +60,10 @@ public
         end
     end
     
+    def each
+        return @myHash.each {|key, value|}
+    end
+
     def size
        puts @myHash.size 
     end
@@ -68,12 +76,3 @@ public
         end 
     end
 end
-
-
-myHash = MyHash.new
-myHash.to_s
-myHash.push("a", 1)
-myHash.push(:b, 2)
-
-myHash[:b] = 3
-myHash.to_s
