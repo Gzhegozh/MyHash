@@ -1,6 +1,7 @@
 require_relative 'myHash.rb'
 
 key_values = [["a", 1], ["b", 234], [:c, :d], [:asd, "sdfsdf"], ["qwe", "rty"], [123, 234], ["aaaaaaaaaaaaaaaa", 9999999999999]]
+a = [1, 234, :d, "sdfsdf", "rty", 234, 9999999999999]
 myHash = MyHash.new
 rubyHash = {}
 
@@ -57,16 +58,15 @@ rubyHash = {}
         rubyHash[key]
     end
 
-    def array_search(arr, key)
-        arr.index(key)
+    def array_search(arr, value)
+        arr.index(value)
     end
-
 
     puts "search"
     Benchmark.ips do |x|
         x.report("MyHash") {my_hash_search(myHash, "qwe")}
         x.report("RubyHash") {ruby_hash_search(rubyHash, "qwe")}
-        x.report("Array") {array_search(key_values, "qwe")}
+        x.report("Array") {array_search(a, "rty")}
         x.compare!
     end
 

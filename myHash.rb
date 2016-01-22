@@ -9,27 +9,25 @@ end
 
 public
     def push(key, value)
-        if @myHash.rassoc(key) == nil
-            @myHash << [value, key]
-        else
+        if @myHash.rassoc(key)
             raise ArgumentError, 'There is already such key in the hash'
+        else
+            @myHash << [value, key] 
         end
     end
     
     def [](key)
         res = @myHash.rassoc(key)
-        if res != nil
-            return res[0]
-        elsif @default != nil
-            return @default
+        if res
+            res[0]
         else
-            return nil
+            @default
         end
     end
     
     def []=(key, value = nil)
         res = @myHash.rassoc(key)
-        if res != nil
+        if res
             res[0] = value
         else
             raise ArgumentError, 'There\'s no such key in the hash'
@@ -56,21 +54,22 @@ public
         if @myHash.empty?
             puts "{}"
         else
-            @myHash.each {|key, value| puts keys} 
+            @myHash.each {|key, value| puts key} 
         end
     end
     
     def each
-        return @myHash.each {|key, value|}
+        @myHash.each {|key, value|}
     end
 
     def size
-       puts @myHash.size 
+       @myHash.size 
     end
     
     def delete_at(key)
-        if @myHash.rassoc(key) != nil
-            @myHash.delete([@myHash.rassoc(key)[0], @myHash.rassoc(key)[1]])
+        res = @myHash.rassoc(key)
+        if res
+            @myHash.delete([res[0], res[1]])
         else
             raise ArgumentError, 'There\'s no such key in the hash'
         end 
