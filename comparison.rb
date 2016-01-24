@@ -1,46 +1,32 @@
 require_relative 'myHash.rb'
 
-key_values = [["a", 1], ["b", 234], [:c, :d], [:asd, "sdfsdf"], ["qwe", "rty"], [123, 234], ["aaaaaaaaaaaaaaaa", 9999999999999]]
-a = [1, 234, :d, "sdfsdf", "rty", 234, 9999999999999]
-myHash = MyHash.new
-rubyHash = {}
+a = []
 
-    def my_hash_push(args)
+    def my_hash_push()
         myHash = MyHash.new
-        args.each do |key, value|
-            myHash.push(key, value)
+        c = 1000000
+        (1..c).each do |i|
+            myHash.push(i.to_s.to_sym, "bar#{i}")
         end
-        return myHash
+        myHash
     end
 
-    def ruby_hash_push(args)
+    def ruby_hash_push()
         rubyHash = {}
-        args.each do |key, value|
-            rubyHash[key] = value
+        c = 1000000
+        (1..c).each do |i|
+            rubyHash[i.to_s.to_sym] = "bar#{i}"
         end
-        return rubyHash
+        rubyHash
     end
 
-    myHash = my_hash_push(key_values)
-    rubyHash = ruby_hash_push(key_values)
-
-    def my_hash_get(myHash)
-        myHash.each do |key, value|
-            x = myHash[key]
+        c = 1000000
+        (1..c).each do |i|
+            a[i] = "bar#{i}"
         end
-    end
 
-    def ruby_hash_get(rubyHash)
-        rubyHash.each do |key, value|
-            x = rubyHash[key]
-        end
-    end
-
-    def array_get(arr)
-        arr.each do |key, value|
-            x = value
-        end
-    end
+    myHash = my_hash_push()
+    rubyHash = ruby_hash_push()
 
     def my_hash_set(myHash, key, value)
         myHash[key] = value
@@ -62,11 +48,12 @@ rubyHash = {}
         arr.index(value)
     end
 
+
     puts "search"
     Benchmark.ips do |x|
-        x.report("MyHash") {my_hash_search(myHash, "qwe")}
-        x.report("RubyHash") {ruby_hash_search(rubyHash, "qwe")}
-        x.report("Array") {array_search(a, "rty")}
+        x.report("MyHash") {my_hash_search(myHash, :"#{501123}")}
+        x.report("RubyHash") {ruby_hash_search(rubyHash, :"#{501123}")}
+        x.report("Array") {array_search(a, "bar501123")}
         x.compare!
     end
 
@@ -74,8 +61,8 @@ rubyHash = {}
 
     puts "set"
     Benchmark.ips do |x|
-        x.report("MyHash") {my_hash_set(myHash, "qwe", "sdf")}
-        x.report("RubyHash") {ruby_hash_set(rubyHash, "qwe", "sdf")}
+        x.report("MyHash") {my_hash_set(myHash, :"#{501123}", 6666)}
+        x.report("RubyHash") {ruby_hash_set(rubyHash, :"#{501123}", 6666)}
         x.compare!
     end
 
@@ -83,17 +70,7 @@ rubyHash = {}
 
     puts "push"
     Benchmark.ips do |x|
-        x.report("RubyHash") {ruby_hash_push(key_values)}
-        x.report("MyHash") {my_hash_push(key_values)}
-        x.compare!
-    end
-
-    puts "////////////////////////////////////////////"
-
-    puts "get"
-    Benchmark.ips do |x|
-        x.report("RubyHash") {ruby_hash_get(rubyHash)}
-        x.report("MyHash") {my_hash_get(myHash)}
-        x.report("Array") {array_get(key_values)}
+        x.report("RubyHash") {ruby_hash_push()}
+        x.report("MyHash") {my_hash_push()}
         x.compare!
     end

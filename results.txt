@@ -1,0 +1,41 @@
+search
+Calculating -------------------------------------
+              MyHash    16.475k i/100ms
+            RubyHash    47.564k i/100ms
+               Array     4.000  i/100ms
+-------------------------------------------------
+              MyHash    714.526k (± 7.0%) i/s -      3.559M
+            RubyHash      1.024M (± 6.7%) i/s -      5.137M
+               Array     41.671  (± 2.4%) i/s -    212.000 
+
+Comparison:
+            RubyHash:  1024076.1 i/s
+              MyHash:   714525.9 i/s - 1.43x slower
+               Array:       41.7 i/s - 24575.27x slower
+
+////////////////////////////////////////////
+set
+Calculating -------------------------------------
+              MyHash    34.914k i/100ms
+            RubyHash    46.016k i/100ms
+-------------------------------------------------
+              MyHash    645.484k (± 5.2%) i/s -      3.247M
+            RubyHash    945.337k (± 6.6%) i/s -      4.740M
+
+Comparison:
+            RubyHash:   945336.7 i/s
+              MyHash:   645483.6 i/s - 1.46x slower
+
+////////////////////////////////////////////
+push
+Calculating -------------------------------------
+            RubyHash     1.000  i/100ms
+              MyHash     1.000  i/100ms
+-------------------------------------------------
+            RubyHash      0.347  (± 0.0%) i/s -      2.000  in   5.797118s
+              MyHash      0.191  (± 0.0%) i/s -      1.000 
+
+Comparison:
+            RubyHash:        0.3 i/s
+              MyHash:        0.2 i/s - 1.81x slower
+

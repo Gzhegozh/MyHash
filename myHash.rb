@@ -1,4 +1,5 @@
 require 'benchmark/ips'
+require 'benchmark'
 
 class MyHash
 
@@ -7,69 +8,79 @@ def initialize(default = nil)
     @default = default
 end
 
+private 
+    def hashFunc(str)
+        str.object_id % 100000000
+    end
+
 public
     def push(key, value)
-        if @myHash.rassoc(key)
-            raise ArgumentError, 'There is already such key in the hash'
-        else
-            @myHash << [value, key] 
+        code = hashFunc(key)
+        if @myHash[code] == nil
+            @myHash[code] = [key, value]
         end
     end
     
     def [](key)
-        res = @myHash.rassoc(key)
-        if res
-            res[0]
+        code = hashFunc(key)
+        if @myHash[code]
+            @myHash[code][1]
         else
             @default
         end
     end
     
     def []=(key, value = nil)
-        res = @myHash.rassoc(key)
-        if res
-            res[0] = value
+        code = hashFunc(key)
+        if @myHash[code]
+            @myHash[code][1] = value
         else
             raise ArgumentError, 'There\'s no such key in the hash'
         end  
     end
     
     def to_s
-        if @myHash.empty?
+        arr = @myHash.compact
+        if arr.empty?
             puts "{}"
         else
-            @myHash.each {|key, value| print "#{value} => #{key}\n"} 
+            arr.each {|key, value| print "#{key} => #{value}\n"} 
         end
     end
     
     def print_keys
-        if @myHash.empty?
+        arr = @myHash.compact
+        if arr.empty?
             puts "{}"
         else
-            @myHash.each {|key, value| puts value} 
+            arr.each {|key, value| puts key} 
         end
     end
     
     def print_values
-        if @myHash.empty?
+        arr = @myHash.compact
+        if arr.empty?
             puts "{}"
         else
-            @myHash.each {|key, value| puts key} 
+            arr.each {|key, value| puts value} 
         end
     end
     
     def each
-        @myHash.each {|key, value|}
+        arr = @myHash.compact
+        arr.each {|key, value|}
     end
 
     def size
-       @myHash.size 
+       arr = @myHash.compact
+       arr.size 
     end
     
     def delete_at(key)
-        res = @myHash.rassoc(key)
+        code = hashFunc(key)
+        res = @myHash[code]
         if res
-            @myHash.delete([res[0], res[1]])
+            @myHash.delete_at(code)
         else
             raise ArgumentError, 'There\'s no such key in the hash'
         end 
