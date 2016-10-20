@@ -72,7 +72,7 @@ public
     end
 
     def size
-       puts "YEAH!" 
+       puts "YEAH!!!!!!" 
        arr = @myHash.compact
        arr.size 
     end
